@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>habitgrid</title>
+<link rel="stylesheet" href="../src/ui/layout.css">
+<link rel="stylesheet" href="../src/ui/grid.css">
+<link rel="stylesheet" href="../src/ui/typography.css">
+<link rel="stylesheet" href="../src/ui/theme.css">
+</head>
+<body>
+  <!-- Top Bar -->
+  <header class="topbar">
+    <div class="logo">habitgrid</div>
+    <div class="month-selector">December 2026 ▾</div>
+    <div class="nav-buttons">
+      <button id="stats-btn">Stats</button>
+      <button id="privacy-btn">Privacy</button>
+      <div class="profile">👤</div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="container">
+    <!-- Habits Column -->
+    <aside class="habits-column">
+      <ul id="habits-list">
+        <!-- Example habit -->
+        <li data-habit-id="wake_6am">
+          <span class="emoji">⏰</span>
+          <span class="name">Wake up at 6AM</span>
+          <span class="goal">Goal: 30</span>
+          <span class="percent">0%</span>
+        </li>
+      </ul>
+      <button id="add-habit">+ Add Habit</button>
+    </aside>
+
+    <!-- Tracking Grid -->
+    <section class="grid-section">
+      <table id="habit-grid">
+        <thead>
+          <tr id="grid-header">
+            <!-- Dates will be inserted by JS -->
+          </tr>
+        </thead>
+        <tbody id="grid-body">
+          <!-- Habit rows + checkboxes inserted by JS -->
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+<script src="../src/app.js"></script>
+</body>
+</html>
