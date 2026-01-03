@@ -1,0 +1,9 @@
+body, button, input {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: #111;
+}
+
+button {
+  cursor: pointer;
+}
