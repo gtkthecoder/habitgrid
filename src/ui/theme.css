@@ -1,0 +1,9 @@
+body { background: #F8F9FB; }
+.topbar { background: #fff; }
+button {
+  background: #4F7EFF;
+  color: #fff;
+  border: none;
+  padding: 4px 8px;
+}
+button:hover { background: #3B63D9; }
