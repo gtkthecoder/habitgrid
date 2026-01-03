@@ -1,27 +1,26 @@
 import { habits, addHabit, loadHabits } from './tracker/habits.js';
 import { DAYS_IN_MONTH } from './utils/constants.js';
+import { renderGrid } from './tracker/grid.js';
 
-// grab DOM
+// DOM elements
 const habitsList = document.getElementById('habits-list');
 const addButton = document.getElementById('add-habit');
-const gridHeader = document.getElementById('grid-header');
-const gridBody = document.getElementById('grid-body');
 
-// load habits
+// load saved habits
 loadHabits();
 renderAll();
 
-// add habit event
+// add habit button
 addButton.addEventListener('click', () => {
-  const name = prompt("Habit Name:");
+  const name = prompt("Enter habit name:");
   if(!name) return;
-  const emoji = prompt("Emoji (optional):") || "✅";
-  const goal = prompt("Monthly Goal (days):") || "30";
+  const emoji = prompt("Enter emoji (optional):") || "✅";
+  const goal = prompt("Enter monthly goal (days):") || "30";
   addHabit(name, emoji, goal);
   renderAll();
 });
 
-// update percentages
+// update percent for a habit row
 function updatePercent(habitId, row) {
   const checkboxes = row.querySelectorAll('input[type="checkbox"]');
   const checked = Array.from(checkboxes).filter(c => c.checked).length;
@@ -36,9 +35,9 @@ function updatePercent(habitId, row) {
   localStorage.setItem('habitgrid', JSON.stringify(habits));
 }
 
-// render habits column and grid
+// render habits column + grid
 function renderAll() {
-  // habits list
+  // list
   habitsList.innerHTML = '';
   habits.forEach(habit => {
     const li = document.createElement('li');
@@ -47,36 +46,6 @@ function renderAll() {
     habitsList.appendChild(li);
   });
 
-  // grid header
-  gridHeader.innerHTML = '<th>Habit</th>';
-  for(let i=1;i<=DAYS_IN_MONTH;i++){
-    const th = document.createElement('th');
-    th.textContent = i;
-    gridHeader.appendChild(th);
-  }
-
-  // grid body
-  gridBody.innerHTML = '';
-  habits.forEach(habit => {
-    const tr = document.createElement('tr');
-    tr.dataset.habitId = habit.id;
-    const tdName = document.createElement('td');
-    tdName.textContent = `${habit.emoji} ${habit.name}`;
-    tr.appendChild(tdName);
-
-    for(let i=1;i<=DAYS_IN_MONTH;i++){
-      const td = document.createElement('td');
-      const checkbox = document.createElement('input');
-      checkbox.type = 'checkbox';
-      checkbox.checked = habit.records[i-1] || false;
-      checkbox.addEventListener('change', () => {
-        habit.records[i-1] = checkbox.checked;
-        updatePercent(habit.id, tr);
-      });
-      td.appendChild(checkbox);
-      tr.appendChild(td);
-    }
-    updatePercent(habit.id, tr);
-    gridBody.appendChild(tr);
-  });
+  // grid
+  renderGrid(updatePercent);
 }
