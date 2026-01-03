@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>habitgrid Stats</title>
+<link rel="stylesheet" href="../src/ui/layout.css">
+<link rel="stylesheet" href="../src/ui/typography.css">
+<link rel="stylesheet" href="../src/ui/theme.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="logo">habitgrid</div>
+  <div class="nav-buttons">
+    <button onclick="window.location='index.html'">Home</button>
+    <button onclick="window.location='privacy.html'">Privacy</button>
+  </div>
+</header>
+
+<main class="container">
+  <h2>Monthly Stats</h2>
+  <div id="donut-chart"></div>
+  <div id="bar-chart"></div>
+  <ul id="top-habits"></ul>
+</main>
+
+<script type="module" src="../src/stats/charts.js"></script>
+</body>
+</html>
