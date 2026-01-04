@@ -1,29 +1,126 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>habitgrid Stats</title>
-<link rel="stylesheet" href="../src/ui/layout.css">
-<link rel="stylesheet" href="../src/ui/typography.css">
-<link rel="stylesheet" href="../src/ui/theme.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics - HabitGrid</title>
+    <link rel="stylesheet" href="../src/ui/theme.css">
+    <link rel="stylesheet" href="../src/ui/layout.css">
+    <link rel="stylesheet" href="../src/ui/typography.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-<header class="topbar">
-  <div class="logo">habitgrid</div>
-  <div class="nav-buttons">
-    <button onclick="window.location='index.html'">Home</button>
-    <button onclick="window.location='privacy.html'">Privacy</button>
-  </div>
-</header>
+    <div class="stats-container">
+        <nav class="stats-nav">
+            <a href="index.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i> Back to Tracker
+            </a>
+            <div class="stats-title">
+                <h1><i class="fas fa-chart-line"></i> Analytics Dashboard</h1>
+                <span id="stats-period">This Month</span>
+            </div>
+            <a href="privacy.html" class="privacy-link">
+                <i class="fas fa-shield-alt"></i> Privacy
+            </a>
+        </nav>
 
-<main class="container">
-  <h2>Monthly Stats</h2>
-  <div id="donut-chart"></div>
-  <div id="bar-chart"></div>
-  <ul id="top-habits"></ul>
-</main>
+        <main class="stats-content">
+            <div class="stats-grid">
+                <!-- Overall Stats -->
+                <div class="stat-card large">
+                    <div class="stat-header">
+                        <h3><i class="fas fa-trophy"></i> Overall Performance</h3>
+                        <select id="time-range">
+                            <option value="month">This Month</option>
+                            <option value="week">This Week</option>
+                            <option value="year">This Year</option>
+                        </select>
+                    </div>
+                    <div class="stat-body">
+                        <div class="donut-chart-container">
+                            <canvas id="overall-chart"></canvas>
+                            <div class="chart-center">
+                                <span class="chart-percentage" id="overall-percentage">0%</span>
+                                <span class="chart-label">Completed</span>
+                            </div>
+                        </div>
+                        <div class="stat-details">
+                            <div class="detail">
+                                <span class="detail-label">Total Habits</span>
+                                <span class="detail-value" id="total-habits">0</span>
+                            </div>
+                            <div class="detail">
+                                <span class="detail-label">Best Day</span>
+                                <span class="detail-value" id="best-day">N/A</span>
+                            </div>
+                            <div class="detail">
+                                <span class="detail-label">Consistency</span>
+                                <span class="detail-value" id="consistency">0%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-<script type="module" src="../src/stats/charts.js"></script>
+                <!-- Weekly Trends -->
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <h3><i class="fas fa-chart-column"></i> Weekly Trends</h3>
+                    </div>
+                    <div class="stat-body">
+                        <canvas id="weekly-chart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Top Habits -->
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <h3><i class="fas fa-medal"></i> Top Performing Habits</h3>
+                    </div>
+                    <div class="stat-body">
+                        <div class="habits-list" id="top-habits">
+                            <!-- Will be populated -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Streaks -->
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <h3><i class="fas fa-fire"></i> Current Streaks</h3>
+                    </div>
+                    <div class="stat-body">
+                        <div class="streaks-list" id="streaks-list">
+                            <!-- Will be populated -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Habit Completion Rates -->
+                <div class="stat-card full-width">
+                    <div class="stat-header">
+                        <h3><i class="fas fa-percentage"></i> Habit Completion Rates</h3>
+                    </div>
+                    <div class="stat-body">
+                        <canvas id="habits-chart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Monthly Calendar View -->
+                <div class="stat-card full-width">
+                    <div class="stat-header">
+                        <h3><i class="fas fa-calendar"></i> Monthly Overview</h3>
+                    </div>
+                    <div class="stat-body">
+                        <div class="calendar-grid" id="calendar-grid">
+                            <!-- Will be populated -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script type="module" src="../src/stats/charts.js"></script>
 </body>
 </html>
