@@ -33,7 +33,7 @@ export class GoogleAuth {
     initializeGoogleSDK() {
         // Load client configuration from Google Cloud Console
         // Replace with your actual client ID
-        const CLIENT_ID = 'YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com';
+        const CLIENT_ID = '25449134158-le21mg55u7kj57luveemm45vo33l09c4.apps.googleusercontent.com';
         
         window.google.accounts.id.initialize({
             client_id: CLIENT_ID,
@@ -307,3 +307,4 @@ export class GoogleAuth {
 
 // Export singleton instance
 export const googleAuth = new GoogleAuth();
+
