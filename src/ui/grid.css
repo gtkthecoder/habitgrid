@@ -1,18 +1,393 @@
-#habit-grid td, #habit-grid th {
-  border: 1px solid #E5E7EB;
-  text-align: center;
-  width: 32px;
-  height: 32px;
+/* Grid-specific styles */
+
+/* Base grid container */
+.grid {
+    display: grid;
+    gap: 1px;
+    background: var(--gray-300);
+    border: 1px solid var(--gray-300);
 }
 
-th {
-  background: #F1F3F5;
-  position: sticky;
-  top: 0;
-  z-index: 1;
+/* Grid cells */
+.grid-cell {
+    background: var(--white);
+    padding: 12px;
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: background-color var(--transition-fast);
 }
 
-input[type="checkbox"] {
-  cursor: pointer;
+.grid-cell:hover {
+    background: var(--gray-50);
 }
 
+/* Header cells */
+.grid-header-cell {
+    background: var(--gray-100);
+    font-weight: 600;
+    color: var(--gray-900);
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    border-bottom: 2px solid var(--gray-300);
+}
+
+/* Row headers */
+.grid-row-header {
+    background: var(--gray-100);
+    font-weight: 500;
+    position: sticky;
+    left: 0;
+    z-index: 5;
+    border-right: 2px solid var(--gray-300);
+    text-align: left;
+    padding-left: 16px;
+    justify-content: flex-start;
+}
+
+/* Corner cell */
+.grid-corner-cell {
+    background: var(--gray-100);
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 20;
+    border-right: 2px solid var(--gray-300);
+    border-bottom: 2px solid var(--gray-300);
+}
+
+/* Today's cell highlight */
+.grid-cell.today {
+    background: rgba(66, 133, 244, 0.1);
+    border: 2px solid var(--primary);
+}
+
+/* Weekend cells */
+.grid-cell.weekend {
+    background: var(--gray-50);
+}
+
+/* Checked cells */
+.grid-cell.checked {
+    background: rgba(52, 168, 83, 0.15);
+    position: relative;
+}
+
+.grid-cell.checked::after {
+    content: "✓";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--secondary);
+    font-weight: bold;
+    font-size: 16px;
+}
+
+/* Missed cells */
+.grid-cell.missed {
+    background: rgba(234, 67, 53, 0.1);
+    position: relative;
+}
+
+.grid-cell.missed::after {
+    content: "✗";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--danger);
+    font-weight: bold;
+    font-size: 16px;
+}
+
+/* Future cells */
+.grid-cell.future {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Hover effects */
+.grid-cell:not(.future):hover {
+    background: rgba(66, 133, 244, 0.2);
+    cursor: pointer;
+}
+
+/* Cell selection */
+.grid-cell.selected {
+    background: rgba(66, 133, 244, 0.3);
+    border: 2px solid var(--primary);
+}
+
+/* Cell with percentage */
+.grid-cell.with-percentage {
+    flex-direction: column;
+    gap: 4px;
+}
+
+.cell-percentage {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--gray-700);
+}
+
+/* Grid resize handle */
+.grid-resize-handle {
+    position: absolute;
+    right: -2px;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    cursor: col-resize;
+    background: transparent;
+    transition: background-color var(--transition-fast);
+}
+
+.grid-resize-handle:hover {
+    background: var(--primary);
+}
+
+/* Scrollable grid container */
+.grid-scroll-container {
+    overflow: auto;
+    position: relative;
+    max-height: 70vh;
+}
+
+/* Grid column indicators */
+.grid-column-indicator {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    background: rgba(66, 133, 244, 0.1);
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Grid row indicators */
+.grid-row-indicator {
+    position: absolute;
+    left: 0;
+    right: 0;
+    background: rgba(66, 133, 244, 0.1);
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Grid cell content alignment */
+.grid-cell-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+/* Compact grid view */
+.grid.compact .grid-cell {
+    padding: 6px;
+    min-height: 40px;
+}
+
+/* Large grid view */
+.grid.large .grid-cell {
+    padding: 16px;
+    min-height: 80px;
+}
+
+/* Grid with borders */
+.grid.bordered .grid-cell {
+    border: 1px solid var(--gray-300);
+}
+
+/* Grid without borders */
+.grid.borderless .grid-cell {
+    border: none;
+}
+
+/* Grid cell states */
+.grid-cell.completed {
+    background: linear-gradient(135deg, var(--secondary), #2ecc71);
+    color: var(--white);
+}
+
+.grid-cell.partial {
+    background: linear-gradient(135deg, var(--accent), #f1c40f);
+    color: var(--white);
+}
+
+.grid-cell.failed {
+    background: linear-gradient(135deg, var(--danger), #e74c3c);
+    color: var(--white);
+}
+
+/* Grid cell animations */
+.grid-cell {
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Grid loading state */
+.grid.loading .grid-cell {
+    position: relative;
+    overflow: hidden;
+}
+
+.grid.loading .grid-cell::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(255, 255, 255, 0.4) 50%, 
+        transparent 100%);
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+/* Grid cell with tooltip */
+.grid-cell[data-tooltip] {
+    position: relative;
+}
+
+.grid-cell[data-tooltip]:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--dark);
+    color: var(--white);
+    padding: 6px 12px;
+    border-radius: var(--radius-sm);
+    font-size: 12px;
+    white-space: nowrap;
+    z-index: 1000;
+    pointer-events: none;
+    margin-bottom: 5px;
+}
+
+.grid-cell[data-tooltip]:hover::before {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: var(--dark);
+    margin-bottom: -5px;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+/* Grid cell badges */
+.cell-badge {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--primary);
+    color: var(--white);
+}
+
+/* Grid cell progress bar */
+.cell-progress {
+    width: 100%;
+    height: 4px;
+    background: var(--gray-200);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-top: 4px;
+}
+
+.cell-progress-fill {
+    height: 100%;
+    background: var(--primary);
+    border-radius: 2px;
+    transition: width var(--transition-normal);
+}
+
+/* Grid cell notes */
+.cell-note {
+    position: absolute;
+    bottom: 4px;
+    left: 4px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+}
+
+/* Responsive grid */
+@media (max-width: 768px) {
+    .grid-scroll-container {
+        max-height: 60vh;
+    }
+    
+    .grid-cell {
+        padding: 8px;
+        min-height: 50px;
+    }
+    
+    .grid.compact .grid-cell {
+        padding: 4px;
+        min-height: 35px;
+    }
+    
+    .grid.large .grid-cell {
+        padding: 12px;
+        min-height: 60px;
+    }
+}
+
+/* Print styles for grid */
+@media print {
+    .grid {
+        break-inside: avoid;
+    }
+    
+    .grid-cell {
+        border: 1px solid #000 !important;
+        background: #fff !important;
+        color: #000 !important;
+    }
+    
+    .grid-header-cell {
+        background: #eee !important;
+        color: #000 !important;
+    }
+}
