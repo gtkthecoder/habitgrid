@@ -1,40 +1,288 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>habitgrid</title>
-<link rel="stylesheet" href="../src/ui/layout.css">
-<link rel="stylesheet" href="../src/ui/grid.css">
-<link rel="stylesheet" href="../src/ui/typography.css">
-<link rel="stylesheet" href="../src/ui/theme.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HabitGrid | Professional Habit Tracker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../src/ui/theme.css">
+    <link rel="stylesheet" href="../src/ui/layout.css">
+    <link rel="stylesheet" href="../src/ui/typography.css">
+    <link rel="stylesheet" href="../src/ui/grid.css">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
 </head>
 <body>
-<header class="topbar">
-  <div class="logo">habitgrid</div>
-  <div class="month-selector" id="month-name">December 2026 ▾</div>
-  <div class="nav-buttons">
-    <button onclick="window.location='stats.html'">Stats</button>
-    <button onclick="window.location='privacy.html'">Privacy</button>
-  </div>
-</header>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loading-screen">
+        <div class="loading-content">
+            <div class="logo-animation">
+                <div class="grid-dots">
+                    <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                    <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                    <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                </div>
+            </div>
+            <h2>HabitGrid</h2>
+            <p>Loading your habits...</p>
+        </div>
+    </div>
 
-<main class="container">
-  <aside class="habits-column">
-    <ul id="habits-list"></ul>
-    <button id="add-habit">+ Add Habit</button>
-  </aside>
+    <!-- Main App (hidden until loaded) -->
+    <div class="app-wrapper" id="app-wrapper" style="display: none;">
+        <!-- Top Navigation -->
+        <nav class="top-nav">
+            <div class="nav-left">
+                <div class="brand">
+                    <div class="logo">
+                        <i class="fas fa-table-cells-large"></i>
+                    </div>
+                    <div class="brand-text">
+                        <h1 class="app-name">HabitGrid</h1>
+                        <span class="app-tagline">Professional Habit Tracker</span>
+                    </div>
+                </div>
+                
+                <div class="date-display">
+                    <span id="current-date">Loading...</span>
+                    <span class="date-update">Updates automatically</span>
+                </div>
+            </div>
 
-  <section class="grid-section">
-    <table id="habit-grid">
-      <thead>
-        <tr id="grid-header"></tr>
-      </thead>
-      <tbody id="grid-body"></tbody>
-    </table>
-  </section>
-</main>
+            <div class="nav-right">
+                <!-- Month Selector -->
+                <div class="month-selector">
+                    <button class="month-btn" id="prev-month" title="Previous month">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <div class="current-month" id="current-month-display">
+                        <span class="month">January</span>
+                        <span class="year">2024</span>
+                    </div>
+                    <button class="month-btn" id="next-month" title="Next month">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
 
-<script type="module" src="../src/app.js"></script>
+                <!-- User/Auth Section -->
+                <div class="user-section" id="user-section">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-container">
+            <!-- Left Sidebar - Habits -->
+            <aside class="sidebar">
+                <div class="sidebar-header">
+                    <h3><i class="fas fa-list-check"></i> My Habits</h3>
+                    <button class="btn-add" id="add-habit-btn">
+                        <i class="fas fa-plus"></i> New
+                    </button>
+                </div>
+
+                <div class="habits-container" id="habits-container">
+                    <!-- Habits will be loaded here -->
+                </div>
+
+                <div class="sidebar-footer">
+                    <div class="stats-summary">
+                        <div class="stat">
+                            <span class="stat-label">Active</span>
+                            <span class="stat-value" id="active-count">0</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Completed</span>
+                            <span class="stat-value" id="completed-count">0%</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Streak</span>
+                            <span class="stat-value" id="streak-count">0</span>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Grid Area -->
+            <section class="main-content">
+                <div class="grid-toolbar">
+                    <div class="toolbar-left">
+                        <div class="view-options">
+                            <button class="view-btn active" data-view="month">
+                                <i class="fas fa-calendar-days"></i> Month
+                            </button>
+                            <button class="view-btn" data-view="week">
+                                <i class="fas fa-calendar-week"></i> Week
+                            </button>
+                        </div>
+                        <button class="action-btn" id="export-btn">
+                            <i class="fas fa-file-export"></i> Export
+                        </button>
+                    </div>
+                    <div class="toolbar-right">
+                        <div class="sync-status" id="sync-status">
+                            <i class="fas fa-cloud"></i>
+                            <span>Ready to sync</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- The Spreadsheet Grid -->
+                <div class="spreadsheet-container">
+                    <div class="grid-header">
+                        <div class="grid-corner">
+                            <div class="header-cell habit-header">Habit</div>
+                            <div class="header-cell goal-header">Goal</div>
+                            <div class="header-cell progress-header">Progress</div>
+                        </div>
+                        <div class="days-header" id="days-header">
+                            <!-- Days will be generated here -->
+                        </div>
+                    </div>
+
+                    <div class="grid-body" id="grid-body">
+                        <!-- Habits rows will be generated here -->
+                    </div>
+                </div>
+
+                <div class="grid-footer">
+                    <div class="overall-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="overall-progress-fill" style="width: 0%"></div>
+                        </div>
+                        <span>Overall: <strong id="overall-percentage">0%</strong></span>
+                    </div>
+                    <div class="last-saved" id="last-saved">
+                        <i class="fas fa-save"></i> Auto-saved just now
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Add Habit Modal -->
+        <div class="modal-overlay" id="habit-modal" style="display: none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-plus-circle"></i> Add New Habit</h3>
+                    <button class="modal-close" id="close-modal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="habit-name">
+                            <i class="fas fa-tag"></i> Habit Name
+                        </label>
+                        <input type="text" id="habit-name" placeholder="e.g., Morning Run, Read 30 pages" maxlength="40">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="habit-emoji">
+                            <i class="fas fa-icons"></i> Icon
+                        </label>
+                        <div class="emoji-grid" id="emoji-grid">
+                            <!-- Emojis will be populated -->
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="habit-goal">
+                            <i class="fas fa-bullseye"></i> Monthly Target
+                        </label>
+                        <div class="goal-input">
+                            <input type="range" id="habit-goal-range" min="1" max="31" value="20">
+                            <div class="goal-display">
+                                <input type="number" id="habit-goal" min="1" max="31" value="20">
+                                <span>days per month</span>
+                            </div>
+                        </div>
+                        <div class="hint">Recommended: 20-25 days for consistency</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="habit-color">
+                            <i class="fas fa-palette"></i> Color Theme
+                        </label>
+                        <div class="color-options">
+                            <div class="color-option" data-color="#4285F4" style="background-color: #4285F4;"></div>
+                            <div class="color-option" data-color="#34A853" style="background-color: #34A853;"></div>
+                            <div class="color-option" data-color="#FBBC05" style="background-color: #FBBC05;"></div>
+                            <div class="color-option" data-color="#EA4335" style="background-color: #EA4335;"></div>
+                            <div class="color-option" data-color="#8B5CF6" style="background-color: #8B5CF6;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-secondary" id="cancel-habit">Cancel</button>
+                    <button class="btn-primary" id="save-habit">
+                        <i class="fas fa-check"></i> Add Habit
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Google Login Modal -->
+        <div class="modal-overlay" id="login-modal">
+            <div class="login-modal">
+                <div class="login-header">
+                    <div class="login-logo">
+                        <i class="fas fa-table-cells-large"></i>
+                    </div>
+                    <h2>Welcome to HabitGrid</h2>
+                    <p>Sign in with Google to save your habits to Drive</p>
+                </div>
+                
+                <div class="login-content">
+                    <div class="login-benefits">
+                        <div class="benefit">
+                            <i class="fas fa-cloud"></i>
+                            <div>
+                                <h4>Auto-sync to Drive</h4>
+                                <p>Your data is saved automatically</p>
+                            </div>
+                        </div>
+                        <div class="benefit">
+                            <i class="fas fa-mobile-alt"></i>
+                            <div>
+                                <h4>Access Anywhere</h4>
+                                <p>Use on any device with your Google account</p>
+                            </div>
+                        </div>
+                        <div class="benefit">
+                            <i class="fas fa-shield-alt"></i>
+                            <div>
+                                <h4>Private & Secure</h4>
+                                <p>Only you can access your data</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="google-signin-btn" id="google-signin-btn">
+                        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
+                        <span>Sign in with Google</span>
+                    </button>
+                    
+                    <p class="login-note">
+                        <i class="fas fa-info-circle"></i>
+                        We only request access to create a file in your Google Drive. Your habits are stored privately.
+                    </p>
+                </div>
+                
+                <div class="login-footer">
+                    <a href="privacy.html" class="privacy-link">
+                        <i class="fas fa-lock"></i> Privacy Policy
+                    </a>
+                    <button class="btn-text" id="skip-login">Use without saving (local only)</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script type="module" src="../src/app.js"></script>
 </body>
-</html>
+</html>s
