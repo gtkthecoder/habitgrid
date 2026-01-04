@@ -1,24 +1,139 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Privacy - habitgrid</title>
-<link rel="stylesheet" href="../src/ui/layout.css">
-<link rel="stylesheet" href="../src/ui/typography.css">
-<link rel="stylesheet" href="../src/ui/theme.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy - HabitGrid</title>
+    <link rel="stylesheet" href="../src/ui/theme.css">
+    <link rel="stylesheet" href="../src/ui/typography.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body>
-<header class="topbar">
-  <div class="logo">habitgrid</div>
-  <div class="nav-buttons">
-    <button onclick="window.location='index.html'">Home</button>
-  </div>
-</header>
+<body class="privacy-page">
+    <div class="privacy-container">
+        <header class="privacy-header">
+            <a href="index.html" class="back-home">
+                <i class="fas fa-arrow-left"></i> Back to HabitGrid
+            </a>
+            <h1><i class="fas fa-shield-alt"></i> Privacy Policy</h1>
+            <p class="last-updated">Last Updated: <span id="current-date">Loading...</span></p>
+        </header>
 
-<main class="container">
-  <h2>Privacy Policy</h2>
-  <p>No servers. Your habit data is stored locally or in your Google Drive. We do not collect your data.</p>
-</main>
+        <main class="privacy-content">
+            <div class="privacy-card">
+                <h2><i class="fas fa-database"></i> Data Storage & Privacy</h2>
+                
+                <div class="privacy-section">
+                    <h3><i class="fas fa-laptop"></i> Local Storage</h3>
+                    <p>When you use HabitGrid without signing in, all your data is stored locally in your browser's storage. This means:</p>
+                    <ul>
+                        <li>Your habits and progress are saved on your device only</li>
+                        <li>No data is sent to any server</li>
+                        <li>Data persists until you clear browser storage</li>
+                        <li>You can export your data anytime</li>
+                    </ul>
+                </div>
+
+                <div class="privacy-section">
+                    <h3><i class="fab fa-google-drive"></i> Google Drive Integration</h3>
+                    <p>When you sign in with Google, we use Google Drive to save your data. Here's how it works:</p>
+                    <ul>
+                        <li>We create a single file called <code>habitgrid-data.json</code> in your Google Drive</li>
+                        <li>Only this app can access this specific file</li>
+                        <li>We request minimal permissions: only to create and update this one file</li>
+                        <li>We cannot see or access any other files in your Google Drive</li>
+                        <li>Your data syncs automatically when you're signed in</li>
+                    </ul>
+                </div>
+
+                <div class="privacy-section">
+                    <h3><i class="fas fa-user-shield"></i> Google Account Information</h3>
+                    <p>When you sign in with Google, we only receive:</p>
+                    <ul>
+                        <li>Your email address (to identify your account)</li>
+                        <li>Your name and profile picture (optional, for display)</li>
+                        <li>We do not store this information anywhere except locally on your device</li>
+                        <li>We cannot access your Google password or other account details</li>
+                    </ul>
+                </div>
+
+                <div class="privacy-section">
+                    <h3><i class="fas fa-cloud"></i> No Server Storage</h3>
+                    <p>HabitGrid operates entirely on your device:</p>
+                    <ul>
+                        <li>There is no backend server storing your data</li>
+                        <li>All processing happens in your browser</li>
+                        <li>We use no analytics or tracking services</li>
+                        <li>The app works offline once loaded</li>
+                    </ul>
+                </div>
+
+                <div class="privacy-section">
+                    <h3><i class="fas fa-download"></i> Data Export & Control</h3>
+                    <p>You have full control over your data:</p>
+                    <ul>
+                        <li>Export all data as JSON or CSV anytime</li>
+                        <li>Delete your data by removing the Google Drive file or clearing browser storage</li>
+                        <li>When signed in, you can disconnect the app from Google Drive in your Google Account settings</li>
+                        <li>Local data is automatically backed up before overwriting</li>
+                    </ul>
+                </div>
+
+                <div class="privacy-section">
+                    <h3><i class="fas fa-cookie"></i> Cookies & Tracking</h3>
+                    <p>HabitGrid uses minimal technical storage:</p>
+                    <ul>
+                        <li>Uses browser localStorage for app state</li>
+                        <li>Uses sessionStorage for temporary data</li>
+                        <li>No third-party cookies or tracking scripts</li>
+                        <li>No advertising or marketing trackers</li>
+                    </ul>
+                </div>
+
+                <div class="privacy-section">
+                    <h3><i class="fas fa-code"></i> Open Source</h3>
+                    <p>HabitGrid is built with transparency in mind:</p>
+                    <ul>
+                        <li>All code is viewable in your browser</li>
+                        <li>Uses only standard web APIs</li>
+                        <li>No hidden or minified tracking code</li>
+                        <li>You can inspect network requests in your browser's developer tools</li>
+                    </ul>
+                </div>
+
+                <div class="privacy-contact">
+                    <h3><i class="fas fa-envelope"></i> Questions?</h3>
+                    <p>If you have any questions about privacy or data handling, please:</p>
+                    <ul>
+                        <li>Check the app's source code</li>
+                        <li>Review Google's OAuth and Drive API documentation</li>
+                        <li>Contact through the GitHub repository if available</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <a href="index.html" class="btn-primary">
+                    <i class="fas fa-check-circle"></i> I Understand, Continue to App
+                </a>
+                <button class="btn-secondary" id="clear-local-data">
+                    <i class="fas fa-trash"></i> Clear All Local Data
+                </button>
+            </div>
+        </main>
+
+        <footer class="privacy-footer">
+            <p>HabitGrid is a client-side application. Your data never leaves your control.</p>
+            <p class="footer-note">Built with privacy in mind. No tracking. No servers. Just your habits.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Update current date
+        document.getElementById('current-date').textContent = new Date().toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+    </script>
 </body>
 </html>
